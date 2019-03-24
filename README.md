@@ -1,4 +1,4 @@
-# Buisiness Hookup
+# Business Hookup
 Microservices:
  - Auth
  - Skills
