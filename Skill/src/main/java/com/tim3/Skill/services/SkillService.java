@@ -1,6 +1,6 @@
 package com.tim3.Skill.services;
 
-import com.sun.tools.javac.util.List;
+import java.util.*;
 import com.tim3.Skill.models.Skill;
 import com.tim3.Skill.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,9 @@ public class SkillService {
     private SkillRepository skillRepository;
 
     public List<Skill> getAll(){
-        return List.from(skillRepository.findAll());
+        ArrayList<Skill> skills = new ArrayList<>();
+        skillRepository.findAll().forEach(skills::add);
+        return skills;
     }
 
 }
