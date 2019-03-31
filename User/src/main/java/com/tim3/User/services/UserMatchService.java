@@ -3,6 +3,7 @@ package com.tim3.User.services;
 import com.tim3.User.models.User;
 import com.tim3.User.models.UserMatch;
 import com.tim3.User.repositories.UserMatchRepository;
+import com.tim3.User.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class UserMatchService {
     @Autowired
     private UserMatchRepository userMatchRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public List<UserMatch> getAllUserMatches(){
         ArrayList<UserMatch> allUserMatches = new ArrayList<UserMatch>();
@@ -29,12 +33,14 @@ public class UserMatchService {
         return optionalUserMatch.get();
     }
 
-    public UserMatch createUserMatch(Integer job_id, boolean accepted, User user){
-        UserMatch userMatch = new UserMatch(job_id, accepted, user);
+    public UserMatch createUserMatch(UserMatch userMatch){
+        Integer user_id = userMatch.getUser().getId();
+        Optional<User> user = userRepository.findById(user_id);
+        userMatch.setUser(user.orElse(null));
         return userMatchRepository.save(userMatch);
     }
 
-    public List<UserMatch> getUserMatchesByUser(Integer user_id){
+    /*public List<UserMatch> getUserMatchesByUser(Integer user_id){
 
         ArrayList<UserMatch> userMatches = new ArrayList<>();
         for (UserMatch userMatch : userMatchRepository.findAll()) {
@@ -43,7 +49,7 @@ public class UserMatchService {
             }
         }
         return userMatches;
-    }
+    }*/
 
     public void deleteUserMatchById(Integer id){
         userMatchRepository.deleteById(id);

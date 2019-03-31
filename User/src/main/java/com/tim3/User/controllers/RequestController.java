@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -30,8 +31,8 @@ public class RequestController {
 
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})
-    private ResponseEntity<Request> createRequest(@RequestBody Request request){
-        return new ResponseEntity<>(requestService.createRequest(request.isAccepted(), request.getUserMatch()), HttpStatus.OK);
+    private ResponseEntity<Request> createRequest(@Valid @RequestBody Request request){
+        return new ResponseEntity<>(requestService.createRequest(request), HttpStatus.OK);
     }
 
     @CrossOrigin
@@ -44,6 +45,6 @@ public class RequestController {
     @DeleteMapping(path="{id}")
     private ResponseEntity<Void> deleteRequestById(@PathVariable Integer id){
         requestService.deleteRequestById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

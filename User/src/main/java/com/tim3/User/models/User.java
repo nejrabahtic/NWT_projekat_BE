@@ -3,6 +3,7 @@ package com.tim3.User.models;
 import com.fasterxml.jackson.annotation.JsonGetter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -13,11 +14,14 @@ public class User {
     @SequenceGenerator(name="user_sequence", sequenceName="USER_SEQ")
     private Integer id;
 
-    @Column(name = "auth_id", nullable=false, length=10, unique=true)
+    @Column(name = "auth_id", nullable=true, length=10, unique=true)
     private Integer authId;
 
-    @Column(name = "user_info", nullable=false, length=100)
+    @Column(name = "user_info", nullable=true, length=100)
     private String userInfo;
+
+    @OneToMany( mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval=true)
+    private List<UserMatch> userMatches;
 
     public User (){}
 
@@ -40,4 +44,14 @@ public class User {
     public String getUserInfo() {
         return this.userInfo;
     }
+
+    /*public void addUserMatch(UserMatch userMatch){
+        if(userMatches == null)
+            userMatches = new ArrayList<UserMatch>();
+        userMatches.add(userMatch);
+        userMatch.setUser(this);
+    }*/
+    /*public List<UserMatch> getUserMatches(){
+        return userMatches;
+    }*/
 }

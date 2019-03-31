@@ -32,7 +32,7 @@ public class SeederService {
         }
     }
 
-    public void seedRequestTable(){
+    /*public void seedRequestTable(){
         ArrayList<Request> requests = new ArrayList<>();
         ArrayList<User> users = new ArrayList<>();
         userRepository.findAll().forEach(users::add);
@@ -43,6 +43,6 @@ public class SeederService {
         if (requestRepository.count() == 0) {
             requestRepository.saveAll(requests);
         }
-    }
+    }*/
 
 }

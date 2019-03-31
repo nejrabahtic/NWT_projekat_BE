@@ -38,6 +38,6 @@ public class UserController {
     @DeleteMapping(path="{id}")
     private ResponseEntity<Void> deleteUserById(@PathVariable Integer id){
         userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

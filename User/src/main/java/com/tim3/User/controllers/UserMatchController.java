@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -31,20 +32,20 @@ public class UserMatchController {
 
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})
-    private ResponseEntity<UserMatch> createUserMatch(@RequestBody UserMatch userMatch){
-        return new ResponseEntity<>(userMatchService.createUserMatch(userMatch.getJobId(), userMatch.isAccepted(), userMatch.getUser()), HttpStatus.OK);
+    private ResponseEntity<UserMatch> createUserMatch(@Valid @RequestBody UserMatch userMatch){
+        return new ResponseEntity<>(userMatchService.createUserMatch(userMatch), HttpStatus.OK);
     }
 
-    @CrossOrigin
+    /*@CrossOrigin
     @GetMapping(path="/allUserMatches/{user_id}")
     private ResponseEntity<List<UserMatch>> getUserMatchesByUser(@PathVariable Integer user_id){
         return new ResponseEntity<>(userMatchService.getUserMatchesByUser(user_id), HttpStatus.OK);
-    }
+    }*/
 
     @CrossOrigin
     @DeleteMapping(path="{id}")
     private ResponseEntity<Void> deleteRequestById(@PathVariable Integer id){
         userMatchService.deleteUserMatchById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

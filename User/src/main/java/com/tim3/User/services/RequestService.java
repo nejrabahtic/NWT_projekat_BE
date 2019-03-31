@@ -3,6 +3,8 @@ package com.tim3.User.services;
 import com.tim3.User.models.Request;
 import com.tim3.User.models.UserMatch;
 import com.tim3.User.repositories.RequestRepository;
+import com.tim3.User.repositories.UserMatchRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class RequestService {
 
     @Autowired
     private RequestRepository requestRepository;
+
+    @Autowired
+    private UserMatchRepository userMatchRepository;
 
     public List<Request> getAllRequests(){
         ArrayList<Request> allRequests = new ArrayList<Request>();
@@ -31,8 +36,10 @@ public class RequestService {
         return optionalRequest.get();
     }
 
-    public Request createRequest(boolean accepted, UserMatch userMatch){
-        Request request = new Request(accepted, userMatch);
+    public Request createRequest(Request request){
+        Integer user_match_id = request.getUserMatch().getId();
+        Optional<UserMatch> userMatch = userMatchRepository.findById(user_match_id);
+        request.setUserMatch(userMatch.orElse(null));
         return requestRepository.save(request);
     }
 

@@ -1,8 +1,10 @@
 package com.tim3.User.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "request")
@@ -16,13 +18,22 @@ public class Request {
     @Column(name = "accepted")
     private boolean accepted;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ID_USERMATCH")
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(name = "userMatch_id")
     private UserMatch userMatch;
 
     public Request() {}
 
-    public Request(boolean accepted, UserMatch userMatch) {
+    public UserMatch getUserMatch() {
+        return userMatch;
+    }
+
+    public void setUserMatch(UserMatch userMatch) {
+        this.userMatch = userMatch;
+    }
+
+    public Request(boolean accepted, UserMatch userMatch){
         this.accepted = accepted;
         this.userMatch = userMatch;
     }
@@ -37,8 +48,4 @@ public class Request {
         return this.accepted;
     }
 
-    @JsonGetter
-    public UserMatch getUserMatch() {
-        return this.userMatch;
-    }
 }
