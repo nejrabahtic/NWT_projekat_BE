@@ -1,8 +1,6 @@
 package com.tim3.Skill.models;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.data.annotation.Id;
+
 
 import javax.persistence.*;
 
@@ -12,6 +10,7 @@ import javax.persistence.*;
 public class JobSkill{
 
     @Id
+    @GeneratedValue
     private Integer id;
 
     @Column(name = "job_id")
@@ -19,7 +18,6 @@ public class JobSkill{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Skill skill;
 
     public JobSkill(){}

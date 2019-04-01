@@ -16,5 +16,16 @@ public class SkillService {
         skillRepository.findAll().forEach(skills::add);
         return skills;
     }
-
+    public Skill getByName(String name){
+        Optional<Skill> skill = skillRepository.findByName(name);
+        return skill.orElse(null);
+    }
+    public Skill create(String name){
+        Skill skill = new Skill(name);
+        return skillRepository.save(skill);
+    }
+    public Skill getById(Integer id){
+        Optional<Skill> skill = skillRepository.findById(id);
+        return skill.orElse(null);
+    }
 }

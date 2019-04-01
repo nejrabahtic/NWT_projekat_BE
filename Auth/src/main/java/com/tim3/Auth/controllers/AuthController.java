@@ -5,9 +5,8 @@ import com.tim3.Auth.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,4 +21,34 @@ public class AuthController {
         return new ResponseEntity<>(authService.getAll(), HttpStatus.OK);
     }
 
+    @PostMapping(value = "/register", consumes = "application/json")
+    public ResponseEntity<Auth> register(@Validated({Auth.RegistrationValidation.class}) @RequestBody Auth auth) {
+        Auth existingAuth = authService.getByUsername(auth.getUsername());
+        if(existingAuth != null)
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        Auth registeredUser = authService.register(auth);
+        return new ResponseEntity<Auth>(registeredUser, HttpStatus.OK);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<Auth> login(@Validated({Auth.LoginValidation.class}) @RequestBody Auth auth){
+        Auth loggedAuth = authService.login(auth);
+        if(loggedAuth == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<Auth>(loggedAuth, HttpStatus.OK);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Auth> getById(@PathVariable Integer id){
+        Auth auth = authService.getById(id);
+        if(auth == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(auth, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+        Auth auth = authService.getById(id);
+        if(auth == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        authService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

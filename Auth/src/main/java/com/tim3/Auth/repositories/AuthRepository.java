@@ -4,5 +4,8 @@ import com.tim3.Auth.models.Auth;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AuthRepository extends MongoRepository<Auth, ObjectId> {
+import java.util.Optional;
+
+public interface AuthRepository extends MongoRepository<Auth, Integer> {
+    Optional<Auth> findByUsername(String username);
 }
