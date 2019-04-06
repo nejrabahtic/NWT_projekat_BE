@@ -10,14 +10,13 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class UserApplication {
 
-	@Autowired
-	private SeederService seederService;
-
-	@EventListener(ApplicationReadyEvent.class)
-	public void seedDatabase(){
-		seederService.seedUserTable();
-//		seederService.seedRequestTable();
-	}
+//	@Autowired
+//	private SeederService seederService;
+//
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void seedDatabase(){
+//		seederService.seedUserTable();
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(UserApplication.class, args);
