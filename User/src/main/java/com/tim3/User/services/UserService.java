@@ -1,5 +1,6 @@
 package com.tim3.User.services;
 
+import com.tim3.User.models.Skill;
 import com.tim3.User.models.User;
 import com.tim3.User.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
+    public User addSkillsToUserById(Integer id, List<Skill> skills){
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null)
+            return null;
+        user.addAllSkills(skills);
+        return userRepository.save(user);
+
+    }
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
     }

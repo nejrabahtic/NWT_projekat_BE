@@ -13,4 +13,7 @@ public class SeederService {
     @Autowired
     private UserRepository userRepository;
 
+    public void seedUserTable(){
+    }
+
 }

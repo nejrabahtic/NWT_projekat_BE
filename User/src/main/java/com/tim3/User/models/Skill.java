@@ -16,14 +16,6 @@ public class Skill {
     @NotNull
     private String skillName;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_skills",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id")
-    )
-    private List<Skill> skills;
-
     public Skill(){}
 
     public Skill(String skill_name){

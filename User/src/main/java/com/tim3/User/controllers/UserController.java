@@ -1,6 +1,8 @@
 package com.tim3.User.controllers;
 
+import com.tim3.User.models.Skill;
 import com.tim3.User.models.User;
+import com.tim3.User.services.SkillService;
 import com.tim3.User.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SkillService skillService;
 
     @CrossOrigin
     @GetMapping()
@@ -38,6 +43,18 @@ public class UserController {
         return new ResponseEntity<>(userService.createUser(user.getAuthId(), user.getUserInfo(), user.getUserName(),
                 user.getUserEmail(), user.getUserPhoneNumber()), HttpStatus.CREATED);
     }
+    @CrossOrigin
+    @PostMapping(path = {"/{id}/skills"},consumes = {"application/json "})
+    private ResponseEntity<User> addSkillsToUser(@PathVariable Integer id, @RequestBody List<Integer> skillsIds){
+        List<Skill> skills =  skillService.getAllSkillsById(skillsIds);
+
+        skills.forEach(skill -> {System.out.println(skill.getSkillName());});
+
+        User user = userService.addSkillsToUserById(id, skills);
+        if(user == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
     @CrossOrigin
     @DeleteMapping(path="{id}")
@@ -47,6 +64,6 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         userService.deleteUserById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

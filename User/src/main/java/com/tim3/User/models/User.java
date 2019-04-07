@@ -1,7 +1,9 @@
 package com.tim3.User.models;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
@@ -36,7 +38,12 @@ public class User {
     @NotNull
     private String userPhoneNumber;
 
-    @ManyToMany(mappedBy = "skills")
+    @ManyToMany
+    @JoinTable(
+            name = "user_skills",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
     private List<Skill> skills;
 
     public User (){}
@@ -50,10 +57,12 @@ public class User {
 
     }
 
+    @JsonProperty
     public Integer getId(){
         return id;
     }
 
+    @JsonIgnore
     public void setId(Integer id){
         this.id = id;
     }
@@ -98,21 +107,21 @@ public class User {
         this.userPhoneNumber = userPhoneNumber;
     }
 
+    @JsonProperty
     public List<Skill> getSkills() {
         return skills;
     }
 
+    @JsonIgnore
     public void setSkills(List<Skill> skills) {
         this.skills = skills;
     }
 
-    /*public void addUserMatch(UserMatch userMatch){
-        if(userMatches == null)
-            userMatches = new ArrayList<UserMatch>();
-        userMatches.add(userMatch);
-        userMatch.setUser(this);
-    }*/
-    /*public List<UserMatch> getUserMatches(){
-        return userMatches;
-    }*/
+    public void addSkill(Skill skill){
+        skills.add(skill);
+    }
+    public void addAllSkills(List<Skill> new_skills){
+        this.skills.addAll(new_skills);
+    }
+
 }

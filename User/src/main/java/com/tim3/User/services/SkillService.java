@@ -1,6 +1,7 @@
 package com.tim3.User.services;
 
 import com.tim3.User.models.Skill;
+import com.tim3.User.models.User;
 import com.tim3.User.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,11 @@ public class SkillService {
         Skill skill = new Skill(skill_name);
         return skillRepository.save(skill);
     }
-
+    public List<Skill> getAllSkillsById(List<Integer> ids){
+        ArrayList<Skill> skills = new ArrayList<>();
+        skillRepository.findAllById(ids).forEach(skills::add);
+        return skills;
+    }
     public void deleteSkillById(Integer id) {
         skillRepository.deleteById(id);
     }
