@@ -1,6 +1,8 @@
 package com.tim3.Skill.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "skill")

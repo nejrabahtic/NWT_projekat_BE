@@ -15,12 +15,12 @@ public class SeederService {
     public void seedAuthTable(){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         ArrayList<Auth> auths = new ArrayList<>();
-        auths.add(new Auth("MaoZedong", bCryptPasswordEncoder.encode("communism"), "Mao Zedong", "maozedong@comumnism.ce", "0300/2323-1111", "Bejin, China"));
-        auths.add(new Auth("BakeSDA", bCryptPasswordEncoder.encode("stopodsto"), "Bakir Izetbegovic", "bake@sda.ba", "061/111-222", "Sarajevo, Bosnia and Herzegovina"));
-        auths.add(new Auth("DodoRS", bCryptPasswordEncoder.encode("korupcija1kroz1"), "Milorad Dodik", "dodo@snsd.rs", "061/111-222", "Istočno Sarajevo, Bosnia and Herzegovina"));
-        auths.add(new Auth("Heilhico", bCryptPasswordEncoder.encode("smrtnarodu"), "Adolf Hilter", "hico@reich.de", "999/999-999", "Berlin, Germany"));
-        auths.add(new Auth("Staljo", bCryptPasswordEncoder.encode("communism1kroz2"), "Joseph Stalin", "staljo@sssr.ru", "022/222-1212", "Moscow, Russia"));
-        auths.add(new Auth("Mussii", bCryptPasswordEncoder.encode("pastabolognese"), "Benito Mussolini", "mussii@facism.it", "0322/333-992", "Rome, Italy"));
+        auths.add(new Auth("MaoZedong", bCryptPasswordEncoder.encode("communism")));
+        auths.add(new Auth("BakeSDA", bCryptPasswordEncoder.encode("stopodsto")));
+        auths.add(new Auth("DodoRS", bCryptPasswordEncoder.encode("korupcija1kroz1")));
+        auths.add(new Auth("Heilhico", bCryptPasswordEncoder.encode("smrtnarodu")));
+        auths.add(new Auth("Staljo", bCryptPasswordEncoder.encode("communism1kroz2")));
+        auths.add(new Auth("Mussii", bCryptPasswordEncoder.encode("pastabolognese")));
 
         if(authRepository.findAll().isEmpty())
             authRepository.insert(auths);

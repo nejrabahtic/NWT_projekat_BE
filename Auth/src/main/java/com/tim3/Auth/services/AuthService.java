@@ -30,6 +30,7 @@ public class AuthService {
     }
 
     public Auth register(Auth auth){
+        auth.setNewId();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashed_password = bCryptPasswordEncoder.encode(auth.getPassword());
         auth.setPassword(hashed_password);

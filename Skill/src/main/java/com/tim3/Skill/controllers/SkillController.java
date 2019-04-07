@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.*;
 
 
@@ -40,5 +41,11 @@ public class SkillController {
         skill = skillService.create(name);
         return new ResponseEntity<>(skill, HttpStatus.OK);
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Skill> deleteSkill(@PathVariable Integer id){
+        skillService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

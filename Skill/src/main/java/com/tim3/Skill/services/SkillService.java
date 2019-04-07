@@ -28,4 +28,7 @@ public class SkillService {
         Optional<Skill> skill = skillRepository.findById(id);
         return skill.orElse(null);
     }
+    public void deleteById(Integer id){
+        skillRepository.deleteById(id);
+    }
 }
