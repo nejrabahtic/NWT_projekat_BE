@@ -1,13 +1,13 @@
 # Business Hookup
 Microservices:
- - Auth (8082)
- - Match (8083)
- - User (8081)
- - Company (8084)
+ - Auth (port: 8081)
+ - User (port: 8082)
+ - Match (port: 8083)
+ - Company (port: 8084)
 
-Eureka Server (8761)
+Eureka Server (port: 8761)
 
 Tim 3:
-  - **Mr. Worldwide** (Muhamed Delalić)
+  - Muhamed Delalić (**Mr. Worldwide**)
   - Nejra Bahtić
   - Tarik Ahmetović
