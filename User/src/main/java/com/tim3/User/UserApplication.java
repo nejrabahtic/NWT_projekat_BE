@@ -32,7 +32,7 @@ public class UserApplication {
 		SpringApplication.run(UserApplication.class, args);
 	}
 }
-@RestController
+/*@RestController
 class ServiceInstanceRestController {
 
 	@Autowired
@@ -43,4 +43,4 @@ class ServiceInstanceRestController {
 			@PathVariable String applicationName) {
 		return this.discoveryClient.getInstances(applicationName);
 	}
-}
+}*/
