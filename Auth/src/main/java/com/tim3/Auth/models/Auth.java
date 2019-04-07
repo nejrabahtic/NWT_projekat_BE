@@ -1,5 +1,6 @@
 package com.tim3.Auth.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bson.types.ObjectId;;
 import org.springframework.data.annotation.Id;
@@ -34,18 +35,24 @@ public class Auth {
 
     public Auth(){}
 
-    public void setNewId(){
-        this.id = new ObjectId().getCounter();
-    }
-
     public Auth(String username, String password){
         this.id =  new ObjectId().getCounter();
         this.username = username;
         this.password = password;
     }
 
+    @JsonProperty
     public Integer getId() {
         return id;
+    }
+
+    @JsonIgnore
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNewId(){
+        this.id = new ObjectId().getCounter();
     }
 
     public String getUsername() {

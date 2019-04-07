@@ -30,11 +30,21 @@ public class AuthController {
         return new ResponseEntity<Auth>(registeredUser, HttpStatus.OK);
     }
     @PostMapping("/login")
-    public ResponseEntity<Auth> login(@Validated({Auth.LoginValidation.class}) @RequestBody Auth auth){
+    public ResponseEntity<String> login(@Validated({Auth.LoginValidation.class}) @RequestBody Auth auth){
         Auth loggedAuth = authService.login(auth);
         if(loggedAuth == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<Auth>(loggedAuth, HttpStatus.OK);
+        return new ResponseEntity<>("Bearer " + authService.generateToken(loggedAuth.getId().toString(), loggedAuth.getUsername()) , HttpStatus.OK);
+    }
+    @PostMapping("/token")
+    public ResponseEntity<String> validateToken(@RequestBody String token){
+        if(!token.startsWith("Bearer "))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        System.out.println(token.substring(7));
+        String id = authService.validToken(token.substring(7));
+        if(id == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<Auth> getById(@PathVariable Integer id){

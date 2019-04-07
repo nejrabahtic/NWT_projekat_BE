@@ -41,6 +41,8 @@ public class MatchController {
         Match createdMatch = matchService.create(match);
         return new ResponseEntity<>(createdMatch, HttpStatus.OK);
     }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id){
         if(!matchService.existsById(id))
