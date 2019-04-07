@@ -25,18 +25,27 @@ public class UserController {
     @CrossOrigin
     @GetMapping(path="/{id}")
     private ResponseEntity<User> getUserById(@PathVariable Integer id){
-        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        User user = userService.getUserById(id);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})
     private ResponseEntity<User> createUser(@RequestBody User user){
-        return new ResponseEntity<>(userService.createUser(user.getAuthId(), user.getUserInfo()), HttpStatus.OK);
+        return new ResponseEntity<>(userService.createUser(user.getAuthId(), user.getUserInfo(), user.getUserName(),
+                user.getUserEmail(), user.getUserPhoneNumber()), HttpStatus.CREATED);
     }
 
     @CrossOrigin
     @DeleteMapping(path="{id}")
     private ResponseEntity<Void> deleteUserById(@PathVariable Integer id){
+        User user = userService.getUserById(id);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         userService.deleteUserById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
