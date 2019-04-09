@@ -10,4 +10,3 @@ Eureka Server (port: 8761)
 Tim 3:
   - Muhamed Delalić (**Mr. Worldwide**)
   - Nejra Bahtić
-  - Tarik Ahmetović
