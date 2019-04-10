@@ -2,6 +2,7 @@ package com.tim3.User.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,8 @@ public class Skill {
     private Integer id;
 
     @Column(name = "skill_name")
-    @NotNull
+    @Size(min = 3, max = 20, message = "Skill name must be between 3 and 20 characters")
+    @NotNull(message = "Skill name must be provided.")
     private String skillName;
 
     public Skill(){}
