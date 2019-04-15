@@ -1,14 +1,12 @@
-package com.tim3.User.models;
+package com.tim3.Company.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Table(name = "skill")
 public class Skill {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

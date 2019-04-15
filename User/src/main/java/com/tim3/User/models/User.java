@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -22,21 +23,24 @@ public class User {
     @NotNull
     private Integer authId;
 
-    @Column(name = "user_info", length=100)
-    @NotNull
-    private String userInfo;
+    @Column(name = "user_info")
+    @Size(min = 20, max = 100, message = "User info must be between 20 and 100 characters")
+    private String userinfo;
 
-    @Column(name = "user_name", length=30)
-    @NotNull
-    private String userName;
+    @Column(name = "user_name")
+    @Size(min = 6, max = 30, message = "Username must be between 6 and 30 characters")
+    @NotNull(message = "Username must be provided.")
+    private String username;
 
-    @Column(name = "user_email", length=30)
-    @NotNull
-    private String userEmail;
+    @Column(name = "user_email")
+    @Size(min = 6, max = 30, message = "User email must be between 6 and 30 characters")
+    @NotNull(message = "Email must be provided.")
+    private String useremail;
 
-    @Column(name = "user_phone_number", length=15)
-    @NotNull
-    private String userPhoneNumber;
+    @Column(name = "user_phone_number")
+    @Size(min = 6, max = 20, message = "User phone number must be between 6 and 20 digits")
+    @NotNull(message = "Phone number must be provided.")
+    private String userPhonenumber;
 
     @ManyToMany
     @JoinTable(
@@ -50,10 +54,10 @@ public class User {
 
     public User (Integer auth_id, String user_info, String user_name, String user_email, String user_phone_number){
         this.authId = auth_id;
-        this.userInfo = user_info;
-        this.userName = user_name;
-        this.userEmail = user_email;
-        this.userPhoneNumber = user_phone_number;
+        this.userinfo = user_info;
+        this.username = user_name;
+        this.useremail = user_email;
+        this.userPhonenumber = user_phone_number;
 
     }
 
@@ -76,35 +80,35 @@ public class User {
     }
 
     public String getUserInfo(){
-        return userInfo;
+        return userinfo;
     }
 
     public void setUserInfo(String userInfo){
-        this.userInfo = userInfo;
+        this.userinfo = userInfo;
     }
 
     public String getUserName(){
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName){
-        this.userName = userName;
+        this.username = userName;
     }
 
     public String getUserEmail(){
-        return userEmail;
+        return useremail;
     }
 
     public void setUserEmail(String userEmail){
-        this.userEmail = userEmail;
+        this.useremail = userEmail;
     }
 
     public String getUserPhoneNumber(){
-        return userPhoneNumber;
+        return userPhonenumber;
     }
 
     public void setUserPhoneNumber(String userPhoneNumber){
-        this.userPhoneNumber = userPhoneNumber;
+        this.userPhonenumber = userPhoneNumber;
     }
 
     @JsonProperty

@@ -1,4 +1,4 @@
-package com.tim3.Match;
+package com.tim3.Company;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-public class MatchApplication {
+public class CompanyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MatchApplication.class, args);
+		SpringApplication.run(CompanyApplication.class, args);
 	}
 
 }
