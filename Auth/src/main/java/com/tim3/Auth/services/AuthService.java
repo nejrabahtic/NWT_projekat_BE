@@ -5,6 +5,7 @@ import com.tim3.Auth.repositories.AuthRepository;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,9 @@ import java.util.Optional;
 public class AuthService {
     @Autowired
     private AuthRepository authRepository;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     private String secret;
     private Long expiration;
@@ -52,9 +56,10 @@ public class AuthService {
         if(!existingAuth.isPresent())
             return null;
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        if(bCryptPasswordEncoder.matches(auth.getPassword(), existingAuth.get().getPassword()))
-            return existingAuth.get();
-        return null;
+        if(!bCryptPasswordEncoder.matches(auth.getPassword(), existingAuth.get().getPassword()))
+            return null;
+        rabbitTemplate.
+        return existingAuth.get();
     }
 
     public Auth register(Auth auth){
