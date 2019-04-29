@@ -1,6 +1,7 @@
 package com.tim3.Match.services;
 
 
+import com.netflix.discovery.converters.Auto;
 import com.tim3.Match.models.Match;
 import com.tim3.Match.repositories.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class MatchService {
     @Autowired
     private MatchRepository matchRepository;
+
+    @Autowired
+    private RabbitService rabbitService;
 
     public Match getById(Integer id){
         Optional<Match> match = matchRepository.findById(id);
@@ -40,9 +44,12 @@ public class MatchService {
         return matchRepository.existsById(id);
     }
     public Match create(Match match){
+
+        rabbitService.sendMatchLogData("CREATE", "Match " + match.getUserName() + " " + match.getCompanyName() + " found.");
         return matchRepository.save(match);
     }
     public void deleteById(Integer id){
+        rabbitService.sendMatchLogData("DELETE", "Match " + id.toString() + " deleted.");
         matchRepository.deleteById(id);
     }
 

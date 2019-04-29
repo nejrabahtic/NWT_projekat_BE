@@ -1,5 +1,6 @@
 package com.tim3.Auth.services;
 
+import com.tim3.Auth.AuthApplication;
 import com.tim3.Auth.models.Auth;
 import com.tim3.Auth.repositories.AuthRepository;
 import io.jsonwebtoken.JwtException;
@@ -23,7 +24,7 @@ public class AuthService {
     private AuthRepository authRepository;
 
     @Autowired
-    private RabbitTemplate rabbitTemplate;
+    private RabbitService rabbitService;
 
     private String secret;
     private Long expiration;
@@ -58,7 +59,8 @@ public class AuthService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if(!bCryptPasswordEncoder.matches(auth.getPassword(), existingAuth.get().getPassword()))
             return null;
-        rabbitTemplate.
+
+        rabbitService.sendAuthLogData("LOGIN", "USER " + existingAuth.get().getUsername() + " loged in");
         return existingAuth.get();
     }
 
@@ -67,6 +69,8 @@ public class AuthService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String hashed_password = bCryptPasswordEncoder.encode(auth.getPassword());
         auth.setPassword(hashed_password);
+
+        rabbitService.sendAuthLogData("REGISTRATION", "USER " + auth.getUsername() + " registered" );
         return  authRepository.insert(auth);
     }
 

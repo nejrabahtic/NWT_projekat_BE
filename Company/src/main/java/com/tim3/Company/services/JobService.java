@@ -14,6 +14,9 @@ public class JobService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private RabbitService rabbitService;
+
     public List<Job> getAllSkills() {
         ArrayList<Job> allJobs = new ArrayList<>();
         jobRepository.findAll().forEach(allJobs:: add);
@@ -30,6 +33,7 @@ public class JobService {
 
     public Job createJob(String location, String jobinfo, String jobname, Boolean remote, Boolean partTime, String requirements) {
         Job job = new Job(location, jobinfo, jobname, remote, partTime, requirements);
+        rabbitService.sendJobLogData("CREATE", "Job " + jobname + " created");
         return jobRepository.save(job);
     }
 

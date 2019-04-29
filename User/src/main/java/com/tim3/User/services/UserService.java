@@ -1,7 +1,9 @@
 package com.tim3.User.services;
 
-import com.tim3.User.models.Skill;
+import com.netflix.discovery.converters.Auto;
 import com.tim3.User.models.User;
+import com.tim3.User.models.Skill;
+
 import com.tim3.User.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RabbitService rabbitService;
 
     public List<User> getAllUsers() {
         ArrayList<User> allUsers = new ArrayList<User>();
@@ -30,6 +35,7 @@ public class UserService {
 
     public User createUser(Integer auth_id, String user_info, String user_name, String user_email, String user_phone_number) {
         User user = new User(auth_id, user_info, user_name, user_email, user_phone_number);
+        rabbitService.sendUserLogData("CREATE", "User " + user.getId() + " created.");
         return userRepository.save(user);
     }
 
@@ -43,6 +49,7 @@ public class UserService {
 
     }
     public void deleteUserById(Integer id) {
+        rabbitService.sendUserLogData("DELETED", "User " + id.toString() + " deleted.");
         userRepository.deleteById(id);
     }
 }

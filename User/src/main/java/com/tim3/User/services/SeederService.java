@@ -1,7 +1,7 @@
 package com.tim3.User.services;
 
-import com.tim3.User.models.Skill;
 import com.tim3.User.models.User;
+import com.tim3.User.models.Skill;
 import com.tim3.User.repositories.SkillRepository;
 import com.tim3.User.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

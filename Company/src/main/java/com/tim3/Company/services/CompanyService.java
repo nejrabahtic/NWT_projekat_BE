@@ -14,6 +14,9 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private RabbitService rabbitService;
+
     public List<Company> getAllCompanies() {
         ArrayList<Company> allCompanies = new ArrayList<>();
         companyRepository.findAll().forEach(allCompanies:: add);
@@ -30,6 +33,7 @@ public class CompanyService {
 
     public Company createCompany(Integer authId, String companyinfo, String companyname, String companyemail, String companyphonenumber) {
         Company company = new Company(authId, companyinfo, companyname, companyemail, companyphonenumber);
+        rabbitService.sendCompanyLogData("CREATE", "Company " + companyname + " created");
         return companyRepository.save(company);
     }
 

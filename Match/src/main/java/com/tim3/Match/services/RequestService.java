@@ -1,5 +1,6 @@
 package com.tim3.Match.services;
 
+import com.netflix.discovery.converters.Auto;
 import com.tim3.Match.models.Request;
 import com.tim3.Match.repositories.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class RequestService {
     @Autowired
     private RequestRepository requestRepository;
 
+    @Autowired
+    private RabbitService rabbitService;
+
     public List<Request> getAll(){
         ArrayList<Request> requests = new ArrayList<>();
         requestRepository.findAll().forEach(requests::add);
@@ -28,6 +32,7 @@ public class RequestService {
         return requestRepository.existsById(id);
     }
     public Request create(Request request){
+        rabbitService.sendRequestLogData("CREATE", "Request " + request.getId() + " made");
         return requestRepository.save(request);
     }
     public void deleteById(Integer id){
