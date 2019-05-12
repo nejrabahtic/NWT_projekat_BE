@@ -1,0 +1,10 @@
+{
+    "user": {
+        "url": "http://localhost",
+        "port": "8082"
+    },
+    "company": {
+        "url": "http://localhost",
+        "port": "808x"
+    }
+}
