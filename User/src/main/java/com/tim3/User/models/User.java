@@ -29,17 +29,17 @@ public class User {
 
     @Column(name = "user_name")
     @Size(min = 6, max = 30, message = "Username must be between 6 and 30 characters")
-    @NotNull(message = "Username must be provided.")
+//    @NotNull(message = "Username must be provided.")
     private String username;
 
     @Column(name = "user_email")
     @Size(min = 6, max = 30, message = "User email must be between 6 and 30 characters")
-    @NotNull(message = "Email must be provided.")
+//    @NotNull(message = "Email must be provided.")
     private String useremail;
 
     @Column(name = "user_phone_number")
     @Size(min = 6, max = 20, message = "User phone number must be between 6 and 20 digits")
-    @NotNull(message = "Phone number must be provided.")
+//    @NotNull(message = "Phone number must be provided.")
     private String userPhonenumber;
 
     @ManyToMany

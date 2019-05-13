@@ -36,7 +36,11 @@ public class CompanyService {
         rabbitService.sendCompanyLogData("CREATE", "Company " + companyname + " created");
         return companyRepository.save(company);
     }
-
+    public Company createCompany(Integer authId) {
+        Company company = new Company(authId, null, null, null, null);
+        rabbitService.sendCompanyLogData("CREATE", "Company " + authId.toString() + " created");
+        return companyRepository.save(company);
+    }
     public List<Company> getAllCompaniesById(List<Integer> ids){
         ArrayList<Company> companies = new ArrayList<>();
         companyRepository.findAllById(ids).forEach(companies::add);

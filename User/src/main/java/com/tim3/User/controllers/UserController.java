@@ -37,12 +37,19 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+//    @CrossOrigin
+//    @PostMapping(consumes = {"application/json"})
+//    private ResponseEntity<User> createUser(@RequestBody User user){
+//        return new ResponseEntity<>(userService.createUser(user.getAuthId(), user.getUserInfo(), user.getUserName(),
+//                user.getUserEmail(), user.getUserPhoneNumber()), HttpStatus.CREATED);
+//    }
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})
-    private ResponseEntity<User> createUser(@RequestBody User user){
-        return new ResponseEntity<>(userService.createUser(user.getAuthId(), user.getUserInfo(), user.getUserName(),
-                user.getUserEmail(), user.getUserPhoneNumber()), HttpStatus.CREATED);
+    private ResponseEntity<Void> createUser(@RequestBody Integer authid){
+        userService.createUser(authid);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
     @CrossOrigin
     @PostMapping(path = {"/{id}/skills"},consumes = {"application/json "})
     private ResponseEntity<User> addSkillsToUser(@PathVariable Integer id, @RequestBody List<Integer> skillsIds){

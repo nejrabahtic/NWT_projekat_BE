@@ -9,14 +9,10 @@ const services = require('../config/services.json');
 // });
 
 
-router.get('/login', (req, res, next) => {
+router.get('/me', (req, res, next) => {
   request({
-    method: "POST",
-    uri: "http://localhost:8081/auth/login",
-    body: {
-      username: "MaoZeThong",
-      password: "asdw2323"
-    }
+    method: "GET",
+    uri: "http://localhost:8082/users/login",
   })
   .then(response => {
     // console.log(response);

@@ -3,11 +3,18 @@ package com.tim3.Auth.controllers;
 import com.tim3.Auth.models.Auth;
 import com.tim3.Auth.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,25 +23,38 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+
     @GetMapping
     public ResponseEntity<List<Auth>> getAll(){
         return new ResponseEntity<>(authService.getAll(), HttpStatus.OK);
     }
 
+
     @PostMapping(value = "/register", consumes = "application/json")
-    public ResponseEntity<Auth> register(@Validated({Auth.RegistrationValidation.class}) @RequestBody Auth auth) {
+    public ResponseEntity<String> register(@Validated({Auth.RegistrationValidation.class}) @RequestBody Auth auth) {
         Auth existingAuth = authService.getByUsername(auth.getUsername());
         if(existingAuth != null)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         Auth registeredUser = authService.register(auth);
-        return new ResponseEntity<Auth>(registeredUser, HttpStatus.OK);
+
+        HttpStatus httpStatus = null;
+        if( registeredUser.getRole().equals("user")) {
+            httpStatus = authService.createUser(registeredUser.getId());
+        } else {
+            httpStatus = authService.createCompany(registeredUser.getId());
+        }
+        if(!httpStatus.is2xxSuccessful())
+            return new ResponseEntity<>(httpStatus);
+
+        return new ResponseEntity<>("Bearer " + authService.generateToken(registeredUser.getId().toString(), registeredUser.getUsername(), registeredUser.getRole()) , HttpStatus.OK);
     }
+
     @PostMapping("/login")
     public ResponseEntity<String> login(@Validated({Auth.LoginValidation.class}) @RequestBody Auth auth){
         Auth loggedAuth = authService.login(auth);
         if(loggedAuth == null)
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<>("Bearer " + authService.generateToken(loggedAuth.getId().toString(), loggedAuth.getUsername()) , HttpStatus.OK);
+        return new ResponseEntity<>("Bearer " + authService.generateToken(loggedAuth.getId().toString(), loggedAuth.getUsername(), loggedAuth.getRole()) , HttpStatus.OK);
     }
     @PostMapping("/token")
     public ResponseEntity<String> validateToken(@RequestBody String token){

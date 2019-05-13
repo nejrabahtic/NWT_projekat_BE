@@ -31,12 +31,20 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.getCompanyById(id), HttpStatus.OK);
     }
 
+//    @CrossOrigin
+//    @PostMapping(consumes = {"application/json"})
+//    private ResponseEntity<Company> createCompany(@RequestBody Company company){
+//        return new ResponseEntity<>(companyService.createCompany(company.getAuthId(), company.getCompanyinfo(), company.getCompanyname(),
+//                company.getCompanyemail(), company.getCompanyphonenumber()), HttpStatus.CREATED);
+//    }
+
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})
-    private ResponseEntity<Company> createCompany(@RequestBody Company company){
-        return new ResponseEntity<>(companyService.createCompany(company.getAuthId(), company.getCompanyinfo(), company.getCompanyname(),
-                company.getCompanyemail(), company.getCompanyphonenumber()), HttpStatus.CREATED);
+    private ResponseEntity<Void> createCompany(@RequestBody Integer authid){
+        companyService.createCompany(authid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     @CrossOrigin
     @DeleteMapping(path="{id}")

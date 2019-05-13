@@ -21,17 +21,17 @@ public class Company {
 
     @Column(name = "company_name")
     @Size(min = 6, max = 30, message = "Company name must be between 6 and 30 characters")
-    @NotNull(message = "Company name must be provided.")
+//    @NotNull(message = "Company name must be provided.")
     private String companyname;
 
     @Column(name = "company_email")
     @Size(min = 6, max = 30, message = "Company email must be between 6 and 30 characters")
-    @NotNull(message = "Email must be provided.")
+//    @NotNull(message = "Email must be provided.")
     private String companyemail;
 
     @Column(name = "company_phone_number")
     @Size(min = 6, max = 20, message = "Company phone number must be between 6 and 20 digits")
-    @NotNull(message = "Phone number must be provided.")
+//    @NotNull(message = "Phone number must be provided.")
     private String companyphonenumber;
 
     public Company(){}

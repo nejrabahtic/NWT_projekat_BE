@@ -39,6 +39,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void createUser(Integer auth_id) {
+        User user = new User(auth_id, null, null, null, null);
+        rabbitService.sendUserLogData("CREATE", "User " + user.getId() + " created.");
+        userRepository.save(user);
+    }
 
     public User addSkillsToUserById(Integer id, List<Skill> skills){
         User user = userRepository.findById(id).orElse(null);

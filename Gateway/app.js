@@ -19,11 +19,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', usersRouter);
+
+// Auth
+app.use('/', proxy("http://localhost:8081", {
+  filter: (req, res) => 
+            (req.method === "POST" && req.path == "/auth/login") ||
+            (req.method === "POST" && req.path == "/auth/register")
+}));
+
 // Users
 app.use('/', proxy("http://localhost:8082", {
-  filter: (req, res) => (req.method === "GET" && req.path == "/users")
+  filter: (req, res) => (req.method === "GET" && req.path == "/users") 
 }));
+
+app.use('/users', usersRouter);
 
 
 // catch 404 and forward to error handler

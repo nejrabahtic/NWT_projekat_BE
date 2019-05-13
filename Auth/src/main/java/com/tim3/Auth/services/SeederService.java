@@ -15,12 +15,20 @@ public class SeederService {
     public void seedAuthTable(){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         ArrayList<Auth> auths = new ArrayList<>();
-        auths.add(new Auth("MaoZedong", bCryptPasswordEncoder.encode("communism")));
-        auths.add(new Auth("BakeSDA", bCryptPasswordEncoder.encode("stopodsto")));
-        auths.add(new Auth("DodoRS", bCryptPasswordEncoder.encode("korupcija1kroz1")));
-        auths.add(new Auth("Heilhico", bCryptPasswordEncoder.encode("smrtnarodu")));
-        auths.add(new Auth("Staljo", bCryptPasswordEncoder.encode("communism1kroz2")));
-        auths.add(new Auth("Mussii", bCryptPasswordEncoder.encode("pastabolognese")));
+
+        // Users
+        auths.add(new Auth(1,"MaoZedong", bCryptPasswordEncoder.encode("communism"), "user"));
+        auths.add(new Auth(2,"BakeSDA", bCryptPasswordEncoder.encode("stopodsto"), "user"));
+        auths.add(new Auth(3,"DodoRS", bCryptPasswordEncoder.encode("korupcija1kroz1"), "user"));
+        auths.add(new Auth(4,"Heilhico", bCryptPasswordEncoder.encode("smrtnarodu"), "user"));
+        auths.add(new Auth(5,"Staljo", bCryptPasswordEncoder.encode("communism1kroz2"), "user"));
+        auths.add(new Auth(6,"Mussii", bCryptPasswordEncoder.encode("pastabolognese"), "user"));
+
+        // Companies
+        auths.add(new Auth(7,"Macrohard", bCryptPasswordEncoder.encode("acquireanddestroy"), "company"));
+        auths.add(new Auth(8,"PearDoo", bCryptPasswordEncoder.encode("sameshit"), "company"));
+        auths.add(new Auth(9,"IMPERIJA", bCryptPasswordEncoder.encode("jalabraca"), "company"));
+        auths.add(new Auth(10,"BHtelekom", bCryptPasswordEncoder.encode("samorodbina"), "company"));
 
         if(authRepository.findAll().isEmpty())
             authRepository.insert(auths);

@@ -26,6 +26,7 @@ public class SeederService {
         users.add(new User(3, "Something about thor", "thorasgard", "chris@gmail.com", "+387 111-222-333"));
         users.add(new User(4, "Something about winter soldier", "wintersoldier", "sebastian@gmail.com", "+387 222-333-444"));
         users.add(new User(5, "Something about irfan", "irfanprazina", "irfanp@gmail.com", "+387 333-444-555"));
+        users.add(new User(6, "Something about ... and a bit more", "Neko Ime", "irfanp@gmail.com", "+387 333-444-555"));
 
         if (userRepository.count() == 0) {
             userRepository.saveAll(users);

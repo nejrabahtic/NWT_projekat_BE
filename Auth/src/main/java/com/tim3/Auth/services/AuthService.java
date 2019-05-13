@@ -9,8 +9,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -29,9 +34,11 @@ public class AuthService {
     private String secret;
     private Long expiration;
 
+    private RestTemplate restTemplate;
     public AuthService(){
         this.secret = "verysecretkey";
         this.expiration = 18000L;
+        this.restTemplate = new RestTemplate();
     }
 
 
@@ -56,6 +63,10 @@ public class AuthService {
         Optional<Auth> existingAuth = authRepository.findByUsername(auth.getUsername());
         if(!existingAuth.isPresent())
             return null;
+
+        if(!existingAuth.get().getRole().equals(auth.getRole()))
+            return null;
+
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if(!bCryptPasswordEncoder.matches(auth.getPassword(), existingAuth.get().getPassword()))
             return null;
@@ -78,17 +89,17 @@ public class AuthService {
         authRepository.deleteById(id);
     }
 
-    public String generateToken(String id, String username) {
+    public String generateToken(String id, String username, String role) {
         final Date createdDate = new Date();
         final Date expirationDate = calculateExpirationDate(createdDate);
 
         return Jwts.builder()
-                .setClaims(new HashMap<>())
                 .setId(id)
                 .setSubject(username)
                 .setIssuedAt(createdDate)
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
+                .claim("role",role)
                 .compact();
     }
     public String validToken(String token){
@@ -110,4 +121,17 @@ public class AuthService {
         return new Date(createdDate.getTime() + expiration * 10000);
     }
 
+    public HttpStatus createUser(Integer authid){
+
+        HttpEntity<Integer> httpEntity = new HttpEntity<>(authid);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange("http://localhost:8082/users", HttpMethod.POST, httpEntity, Void.class);
+        return responseEntity.getStatusCode();
+    }
+    public HttpStatus createCompany(Integer authid){
+
+        HttpEntity<Integer> httpEntity = new HttpEntity<>(authid);
+        ResponseEntity<Void> responseEntity = restTemplate.exchange("http://localhost:8084/companies", HttpMethod.POST, httpEntity, Void.class);
+        return responseEntity.getStatusCode();
+
+    }
 }

@@ -33,12 +33,33 @@ public class Auth {
     @Field("password")
     private String password;
 
+    @NotNull(message = "Account type must be specified.", groups = {RegistrationValidation.class})
+    @Pattern(regexp = "^(company|user)$", groups = {RegistrationValidation.class})
+    @Field("role")
+    private String role;
+
     public Auth(){}
 
     public Auth(String username, String password){
         this.id =  new ObjectId().getCounter();
         this.username = username;
         this.password = password;
+        this.role = "user";
+    }
+
+    public Auth(String username, String password, String role){
+        this.id =  new ObjectId().getCounter();
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    // For testing purposes only
+    public Auth(Integer id, String username, String password, String role){
+        this.id =  id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     @JsonProperty
@@ -63,7 +84,12 @@ public class Auth {
         return password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
