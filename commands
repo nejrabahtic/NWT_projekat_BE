@@ -1,0 +1,4 @@
+sudo docker run --name=testA -p 8081:8081 -it springio/auth
+sudo docker run --name=testU -p 8082:8082 --network host -it springio/user 
+sudo docker run --name=testM -p 8084:8084 --network host -it springio/match
+sudo docker run --name=testC -p 8084:8084 --network host -it springio/company
