@@ -37,6 +37,25 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @GetMapping(path="/authid/{authid}")
+    private ResponseEntity<User> getUserByAuthId(@PathVariable Integer authid){
+        User user = userService.getUserByAuthId(authid);
+        if(user == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(path="/{authid}/change")
+    private ResponseEntity<User> setUserData(@PathVariable Integer authid, @RequestBody User user){
+        User savedUser = userService.setUserData(authid, user);
+        if(savedUser == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(savedUser, HttpStatus.OK);
+    }
+
 //    @CrossOrigin
 //    @PostMapping(consumes = {"application/json"})
 //    private ResponseEntity<User> createUser(@RequestBody User user){

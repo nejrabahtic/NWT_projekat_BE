@@ -32,6 +32,24 @@ public class UserService {
 
         return optionalUser.orElse(null);
     }
+    public User getUserByAuthId(Integer authid){
+        Optional<User> optionalUser = userRepository.findOneByAuthId(authid);
+
+        return optionalUser.orElse(null);
+    }
+    public User setUserData(Integer authid, User user){
+        Optional<User> optionalUser = userRepository.findOneByAuthId(authid);
+        if(optionalUser.isPresent() == false)
+            return null;
+        User databaseUser = optionalUser.get();
+
+        databaseUser.setUserEmail(user.getUserEmail());
+        databaseUser.setUserInfo(user.getUserInfo());
+        databaseUser.setUserName(user.getUserName());
+        databaseUser.setUserPhoneNumber(user.getUserPhoneNumber());
+
+        return userRepository.save(databaseUser);
+    }
 
     public User createUser(Integer auth_id, String user_info, String user_name, String user_email, String user_phone_number) {
         User user = new User(auth_id, user_info, user_name, user_email, user_phone_number);

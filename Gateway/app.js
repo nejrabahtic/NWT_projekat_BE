@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var proxy = require('express-http-proxy');
+var cors = require('cors');
 
 var usersRouter = require('./routes/users');
 
@@ -20,6 +21,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.use(cors());
+
+app.use("/user", usersRouter);
 // Auth
 app.use('/', proxy("http://localhost:8081", {
   filter: (req, res) => 
@@ -27,13 +31,13 @@ app.use('/', proxy("http://localhost:8081", {
             (req.method === "POST" && req.path == "/auth/register")
 }));
 
+app.use("/users", usersRouter);
+
+
 // Users
 app.use('/', proxy("http://localhost:8082", {
   filter: (req, res) => (req.method === "GET" && req.path == "/users") 
 }));
-
-app.use('/users', usersRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

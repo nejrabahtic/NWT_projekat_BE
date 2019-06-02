@@ -29,7 +29,7 @@ public class AuthController {
         return new ResponseEntity<>(authService.getAll(), HttpStatus.OK);
     }
 
-
+    @CrossOrigin
     @PostMapping(value = "/register", consumes = "application/json")
     public ResponseEntity<String> register(@Validated({Auth.RegistrationValidation.class}) @RequestBody Auth auth) {
         Auth existingAuth = authService.getByUsername(auth.getUsername());
@@ -48,7 +48,8 @@ public class AuthController {
 
         return new ResponseEntity<>("Bearer " + authService.generateToken(registeredUser.getId().toString(), registeredUser.getUsername(), registeredUser.getRole()) , HttpStatus.OK);
     }
-
+    
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<String> login(@Validated({Auth.LoginValidation.class}) @RequestBody Auth auth){
         Auth loggedAuth = authService.login(auth);
