@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use("/user", usersRouter);
+
 // Auth
 app.use('/', proxy("http://localhost:8081", {
   filter: (req, res) => 
@@ -31,7 +32,6 @@ app.use('/', proxy("http://localhost:8081", {
             (req.method === "POST" && req.path == "/auth/register")
 }));
 
-app.use("/users", usersRouter);
 
 
 // Users

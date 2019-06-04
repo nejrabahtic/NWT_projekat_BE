@@ -22,13 +22,16 @@ router.get('/profile', (req, res, next) => {
         uri: "http://localhost:8082/users/authid/" + id
       })
       .then(response => {
-          res.staus(200).json(response);  
+          console.log("Success: ", response);
+          res.status(200).json(response);  
       })
       .catch(error => {
+        console.log("error1: ", error);
         res.status(400).json(error);
       });
     })
     .catch( error => {
+      console.log("error2: ", error);
       res.status(400).json(error);
     })
 
@@ -42,17 +45,27 @@ router.post('/change', (req, res, next) => {
     .getAuthId(req.headers.authorization)
     .then( id => {
       console.log(req.body);
-      // request({
-      //   method: "POST",
-      //   uri: "http://localhost:8082/users/+" + id + "+/change",
-      //   body: req.body
-      // })
-      // .then(response => {
-      //     res.staus(200).json(response);  
-      // })
-      // .catch(error => {
-      //   res.status(400).json(error);
-      // });
+      request({
+        method: "POST",
+        uri: "http://localhost:8082/users/" + id + "/change",
+        body: req.body,
+        json: true
+      })
+      .then(response => {
+          console.log(response);
+          const { userEmail, userInfo, userName, userPhoneNumber } = response;
+
+          res.status(200).json({
+            userEmail,
+            userInfo,
+            userName,
+            userPhoneNumber
+          });  
+      })
+      .catch(error => {
+        console.log(error);
+        res.status(400).json(error);
+      });
     })
     .catch( error => {
       res.status(400).json(error);
