@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("users")
@@ -70,16 +71,29 @@ public class UserController {
     }
 
     @CrossOrigin
-    @PostMapping(path = {"/{id}/skills"},consumes = {"application/json "})
-    private ResponseEntity<User> addSkillsToUser(@PathVariable Integer id, @RequestBody List<Integer> skillsIds){
+    @PostMapping(path = {"/{authid}/skills"},consumes = {"application/json "})
+    private ResponseEntity<User> addSkillsToUser(@PathVariable Integer authid, @RequestBody List<Integer> skillsIds){
         List<Skill> skills =  skillService.getAllSkillsById(skillsIds);
 
         skills.forEach(skill -> {System.out.println(skill.getSkillName());});
 
-        User user = userService.addSkillsToUserById(id, skills);
+        User user = userService.addSkillsToUserByAuthId(authid, skills);
         if(user == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @DeleteMapping(path = {"/{authid}/skill"},consumes = {"application/json "})
+    private ResponseEntity<User> removeSkill(@PathVariable Integer authid, @RequestBody Skill skill){
+        System.out.println("HIT");
+        Skill databaseskill = skillService.getSkillById(skill.getId());
+        if(databaseskill == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        User user = userService.removeSkillFromUser(authid, databaseskill);
+        if(user == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
     @CrossOrigin

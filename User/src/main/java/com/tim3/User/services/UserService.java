@@ -62,11 +62,19 @@ public class UserService {
         rabbitService.sendUserLogData("CREATE", "User " + user.getId() + " created.");
         userRepository.save(user);
     }
-
-    public User addSkillsToUserById(Integer id, List<Skill> skills){
-        User user = userRepository.findById(id).orElse(null);
-        if(user == null)
+    public User removeSkillFromUser(Integer authid, Skill skill){
+        Optional<User> optionalUser = userRepository.findOneByAuthId(authid);
+        if(optionalUser.isPresent() == false)
             return null;
+        User user = optionalUser.get();
+        user.removeSkill(skill);
+        return userRepository.save(user);
+    }
+    public User addSkillsToUserByAuthId(Integer authid, List<Skill> skills){
+        Optional<User> optionalUser = userRepository.findOneByAuthId(authid);
+        if(optionalUser.isPresent() == false)
+            return null;
+        User user = optionalUser.get();
         user.addAllSkills(skills);
         return userRepository.save(user);
 

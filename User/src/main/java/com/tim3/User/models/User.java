@@ -127,5 +127,6 @@ public class User {
     public void addAllSkills(List<Skill> new_skills){
         this.skills.addAll(new_skills);
     }
+    public void removeSkill(Skill skill) { skills.remove(skill); }
 
 }
