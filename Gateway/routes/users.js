@@ -4,11 +4,9 @@ const request = require('request-promise-native');
 const proxy = require('express-http-proxy');
 const services = require('../config/services.json');
 var Auth = require('../sevices/Auth.js');
-const cors = require('cors');
 /* GET users listing. */
 // router.get('/all', (req, res, next) => {
 // });
-router.all('*', cors());
 
 router.get('/profile', (req, res, next) => {
   if (!req.headers.authorization) {
@@ -26,12 +24,10 @@ router.get('/profile', (req, res, next) => {
           res.status(200).json(response);  
       })
       .catch(error => {
-        console.log("error1: ", error);
         res.status(400).json(error);
       });
     })
-    .catch( error => {
-      console.log("error2: ", error);
+    .catch(error => {
       res.status(400).json(error);
     })
 

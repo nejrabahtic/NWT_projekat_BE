@@ -7,7 +7,7 @@ var proxy = require('express-http-proxy');
 var cors = require('cors');
 
 var usersRouter = require('./routes/users');
-
+var companyROuter = require('./routes/company');
 var app = express();
 
 // view engine setup
@@ -24,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 
 app.use("/user", usersRouter);
+app.use("/company", companyROuter);
 
 // Auth
 app.use('/', proxy("http://localhost:8081", {

@@ -20,7 +20,23 @@ public class CompanyController {
     private ResponseEntity<List<Company>> getAllCompanies(){
         return new ResponseEntity<>(companyService.getAllCompanies(), HttpStatus.OK);
     }
-
+    @CrossOrigin
+    @GetMapping(path="/authid/{authid}")
+    private ResponseEntity<Company> getUserByAuthId(@PathVariable Integer authid){
+        Company company = companyService.getCompanyByAuthId(authid);
+        if(company == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
+    @CrossOrigin
+    @PostMapping(path="/{authid}/change")
+    private ResponseEntity<Company> setUserData(@PathVariable Integer authid, @RequestBody Company company){
+        Company savedCompany = companyService.setCompanyData(authid, company);
+        if(savedCompany == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(savedCompany, HttpStatus.OK);
+    }
     @CrossOrigin
     @GetMapping(path="/{id}")
     private ResponseEntity<Company> getCompanyById(@PathVariable Integer id){

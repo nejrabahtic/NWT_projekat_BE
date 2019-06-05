@@ -23,6 +23,25 @@ public class CompanyService {
         return allCompanies;
     }
 
+    public Company getCompanyByAuthId(Integer authid){
+        Optional<Company> optionalCompany = companyRepository.findOneByAuthId(authid);
+
+        return optionalCompany.orElse(null);
+    }
+
+    public Company setCompanyData(Integer authid, Company company){
+        Optional<Company> optionalCompany = companyRepository.findOneByAuthId(authid);
+        if(optionalCompany.isPresent() == false)
+            return null;
+        Company databaseCompany = optionalCompany.get();
+
+        databaseCompany.setCompanyemail(company.getCompanyemail());
+        databaseCompany.setCompanyinfo(company.getCompanyinfo());
+        databaseCompany.setCompanyname(company.getCompanyname());
+        databaseCompany.setCompanyphonenumber(company.getCompanyphonenumber());
+
+        return companyRepository.save(databaseCompany);
+    }
     public Company getCompanyById(Integer id) {
         Optional<Company> optionalCompany = companyRepository.findById(id);
         if(!optionalCompany.isPresent()){
