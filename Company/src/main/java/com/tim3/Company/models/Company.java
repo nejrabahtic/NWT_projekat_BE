@@ -1,8 +1,12 @@
 package com.tim3.Company.models;
 
+
+import com.fasterxml.jackson.annotation.JsonGetter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.*;
 
 @Entity
 @Table(name = "company")
@@ -33,6 +37,12 @@ public class Company {
     @Size(min = 6, max = 20, message = "Company phone number must be between 6 and 20 digits")
 //    @NotNull(message = "Phone number must be provided.")
     private String companyphonenumber;
+
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Job> jobs = new ArrayList<Job>();
 
     public Company(){}
 
@@ -91,4 +101,17 @@ public class Company {
     public void setCompanyphonenumber(String companyphonenumber) {
         this.companyphonenumber = companyphonenumber;
     }
+    @JsonGetter
+    public List<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+    public void addJob(Job job){
+        jobs.add(job);
+    }
+
+
 }

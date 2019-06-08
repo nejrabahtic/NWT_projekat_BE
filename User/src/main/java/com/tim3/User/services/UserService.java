@@ -83,4 +83,6 @@ public class UserService {
         rabbitService.sendUserLogData("DELETED", "User " + id.toString() + " deleted.");
         userRepository.deleteById(id);
     }
+
+    public void get
 }
