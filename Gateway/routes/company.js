@@ -62,4 +62,32 @@ router.post('/change', (req, res, next) => {
         res.status(400).json(error);
       })
   });
+
+
+router.post("/addJob", (req, res, next) => {
+    if (!req.headers.authorization) {
+      return res.status(403).json({ error: 'No credentials sent!' });
+    }
+    Auth
+      .getAuthId(req.headers.authorization)
+      .then( id => {
+          request({
+            method: "POST",
+            uri: "http://localhost:8084/companies/" + id + "/addJob",
+            body: req.body,
+            json: true
+
+          })
+          .then(response => {
+              console.log(response);
+              res.status(200).json({message: "Success"});
+          })
+          .catch(error => {
+              console.log(error);
+          })
+      })
+      .catch(error => {
+        res.status(400).json(error);
+      })
+});
 module.exports = router;

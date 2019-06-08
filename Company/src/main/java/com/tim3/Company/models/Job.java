@@ -16,11 +16,11 @@ public class Job {
     private Integer id;
 
     @Column(name = "location")
-    @Size(min = 20, max = 30, message = "Location name must be between 20 and 30 characters")
+    @Size(min = 10, max = 80, message = "Location name must be between 20 and 30 characters")
     private String location;
 
-    @Column(name = "job_info")
-    @Size(min = 20, max = 100, message = "Job info must be between 20 and 100 characters")
+    @Column(name = "job_info", length = 500)
+    @Size(min = 20, max = 500, message = "Job info must be between 20 and 100 characters")
     private String jobinfo;
 
     @Column(name = "remote")
@@ -31,13 +31,13 @@ public class Job {
     @NotNull(message = "You must provide do you want part time or not.")
     private Boolean partTime;
 
-    @Column(name = "job_name")
-    @Size(min = 6, max = 30, message = "Job name must be between 6 and 30 characters")
+    @Column(name = "job_name", length = 80)
+    @Size(min = 6, max = 80, message = "Job name must be between 6 and 30 characters")
     @NotNull(message = "Job name must be provided.")
     private String jobname;
 
-    @Column(name = "requirements")
-    @Size(min = 10, max = 30, message = "Requirements must be between 10 and 30 characters")
+    @Column(name = "requirements", length = 250)
+    @Size(min = 10, max = 250, message = "Requirements must be between 10 and 30 characters")
     @NotNull(message = "Requirements must be provided.")
     private String requirements;
 

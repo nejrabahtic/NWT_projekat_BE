@@ -1,6 +1,7 @@
 package com.tim3.Company.controllers;
 
 import com.tim3.Company.models.Company;
+import com.tim3.Company.models.Job;
 import com.tim3.Company.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,12 +48,15 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.getCompanyById(id), HttpStatus.OK);
     }
 
-//    @CrossOrigin
-//    @PostMapping(consumes = {"application/json"})
-//    private ResponseEntity<Company> createCompany(@RequestBody Company company){
-//        return new ResponseEntity<>(companyService.createCompany(company.getAuthId(), company.getCompanyinfo(), company.getCompanyname(),
-//                company.getCompanyemail(), company.getCompanyphonenumber()), HttpStatus.CREATED);
-//    }
+    @CrossOrigin
+    @PostMapping(path = "/{authid}/addJob")
+    private ResponseEntity<Company> addJobToCompany(@PathVariable Integer authid, @RequestBody Job job){
+        Company company = companyService.addJobToCompany(authid, job);
+        if(company == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(company, HttpStatus.OK);
+    }
 
     @CrossOrigin
     @PostMapping(consumes = {"application/json"})

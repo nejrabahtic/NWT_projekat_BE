@@ -1,7 +1,10 @@
 package com.tim3.Company.services;
 
+import com.netflix.discovery.converters.Auto;
 import com.tim3.Company.models.Company;
+import com.tim3.Company.models.Job;
 import com.tim3.Company.repositories.CompanyRepository;
+import com.tim3.Company.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,9 @@ import java.util.Optional;
 public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
+
+    @Autowired
+    private JobRepository jobRepository;
 
     @Autowired
     private RabbitService rabbitService;
@@ -27,6 +33,18 @@ public class CompanyService {
         Optional<Company> optionalCompany = companyRepository.findOneByAuthId(authid);
 
         return optionalCompany.orElse(null);
+    }
+
+    public Company addJobToCompany(Integer authid, Job job){
+        Optional<Company> optionalCompany = companyRepository.findOneByAuthId(authid);
+
+        if(!optionalCompany.isPresent())
+            return null;
+
+        Company company = optionalCompany.get();
+        company.addJob(job);
+
+        return companyRepository.save(company);
     }
 
     public Company setCompanyData(Integer authid, Company company){
