@@ -22,6 +22,7 @@ public class CompanyApplication {
 	@EventListener(ApplicationReadyEvent.class)
 	public void seedDatabase(){
 		seederService.seedCompanyTable();
+		seederService.seedSkillTable();
 	}
 
 

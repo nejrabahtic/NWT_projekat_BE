@@ -33,13 +33,20 @@ app.use('/', proxy("http://localhost:8081", {
             (req.method === "POST" && req.path === "/auth/register")
 }));
 
+
 // Users
-app.use('/', proxy("http://localhost:8082", {
+app.use('/users', proxy("http://localhost:8082", {
   filter: (req, res) => 
             (req.method === "GET" && req.path === "/users") ||
             (req.method === "GET" && req.path === "/skills")
 }));
 
+// Company
+app.use('/companies', proxy("http://localhost:8084", {
+  filter: (req, res) => 
+            (req.method === "GET" && req.path === "/companies") ||
+            (req.method === "GET" && req.path === "/skills")
+}));
 
 
 

@@ -1,7 +1,9 @@
 package com.tim3.Company.services;
 
 import com.tim3.Company.models.Company;
+import com.tim3.Company.models.Skill;
 import com.tim3.Company.repositories.CompanyRepository;
+import com.tim3.Company.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,9 @@ public class SeederService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private SkillRepository skillRepository;
+
     public void seedCompanyTable(){
         ArrayList<Company> companies = new ArrayList<>();
 
@@ -23,5 +28,17 @@ public class SeederService {
 
         if(companyRepository.count() == 0)
             companyRepository.saveAll(companies);
+    }
+    public void seedSkillTable(){
+        ArrayList<Skill> skills = new ArrayList<>();
+
+        skills.add(new Skill("Team Work"));
+        skills.add(new Skill("Project Manager"));
+        skills.add(new Skill("Software developer"));
+        skills.add(new Skill("DB administrator"));
+
+        if (skillRepository.count() == 0) {
+            skillRepository.saveAll(skills);
+        }
     }
 }
