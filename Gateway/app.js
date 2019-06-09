@@ -8,6 +8,7 @@ var cors = require('cors');
 
 var usersRouter = require('./routes/users');
 var companyROuter = require('./routes/company');
+var matchRouter = require('./routes/match');
 var app = express();
 
 // view engine setup
@@ -25,9 +26,13 @@ app.use(cors());
 
 app.use("/user", usersRouter);
 app.use("/company", companyROuter);
+app.use("/match", matchRouter)
+
+//let baseUrl = 'localhost'
+let baseUrl = '192.168.1.8'
 
 // Auth
-app.use('/', proxy("http://localhost:8081", {
+app.use('/', proxy("http://"+baseUrl+":8081", {
   filter: (req, res) => 
             (req.method === "POST" && req.path === "/auth/login") ||
             (req.method === "POST" && req.path === "/auth/register")
@@ -35,14 +40,21 @@ app.use('/', proxy("http://localhost:8081", {
 
 
 // Users
-app.use('/users', proxy("http://localhost:8082", {
+app.use('/users', proxy("http://"+baseUrl+":8082", {
   filter: (req, res) => 
             (req.method === "GET" && req.path === "/users") ||
             (req.method === "GET" && req.path === "/skills")
 }));
 
+// Match
+app.use('/matches', proxy("http://"+baseUrl+":8083", {
+  filter: (req, res) => 
+            (req.method === "GET" && req.path === "/matches") ||
+            (req.method === "GET" && req.path === "/skills")
+}));
+
 // Company
-app.use('/companies', proxy("http://localhost:8084", {
+app.use('/companies', proxy("http://"+baseUrl+":8084", {
   filter: (req, res) => 
             (req.method === "GET" && req.path === "/companies") ||
             (req.method === "GET" && req.path === "/skills")
