@@ -5,6 +5,9 @@ const proxy = require('express-http-proxy');
 const services = require('../config/services.json');
 var Auth = require('../sevices/Auth.js');
 
+//let baseUrl = 'localhost'
+let baseUrl = '192.168.1.8'
+
 router.get('/profile', (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).json({ error: 'No credentials sent!' });
@@ -14,7 +17,7 @@ router.get('/profile', (req, res, next) => {
     .then( id => {
         request({
             method: "GET",
-            uri: "http://localhost:8084/companies/authid/" + id
+            uri: "http://"+baseUrl+":8084/companies/authid/" + id
         })
         .then(response => {
             console.log("Success: ", response);
@@ -38,7 +41,7 @@ router.post('/change', (req, res, next) => {
       .then( id => {
         request({
           method: "POST",
-          uri: "http://localhost:8084/companies/" + id + "/change",
+          uri: "http://"+baseUrl+":8084/companies/" + id + "/change",
           body: req.body,
           json: true
         })
@@ -73,7 +76,7 @@ router.post("/addJob", (req, res, next) => {
       .then( id => {
           request({
             method: "POST",
-            uri: "http://localhost:8084/companies/" + id + "/addJob",
+            uri: "http://"+baseUrl+":8084/companies/" + id + "/addJob",
             body: req.body,
             json: true
 

@@ -8,6 +8,9 @@ var Auth = require('../sevices/Auth.js');
 // router.get('/all', (req, res, next) => {
 // });
 
+//let baseUrl = 'localhost'
+let baseUrl = '192.168.1.8'
+
 router.get('/profile', (req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(403).json({ error: 'No credentials sent!' });
@@ -17,7 +20,7 @@ router.get('/profile', (req, res, next) => {
     .then( id => {
       request({
         method: "GET",
-        uri: "http://localhost:8082/users/authid/" + id
+        uri: "http://"+baseUrl+":8082/users/authid/" + id
       })
       .then(response => {
           console.log("Success: ", response);
@@ -43,7 +46,7 @@ router.post('/change', (req, res, next) => {
       console.log(req.body);
       request({
         method: "POST",
-        uri: "http://localhost:8082/users/" + id + "/change",
+        uri: "http://"+baseUrl+":8082/users/" + id + "/change",
         body: req.body,
         json: true
       })
@@ -77,7 +80,7 @@ router.post('/addskills', (req, res, next) => {
     .then(id => {
       request({
         method: "POST",
-        uri: "http://localhost:8082/users/" + id + "/skills",
+        uri: "http://"+baseUrl+":8082/users/" + id + "/skills",
         body: req.body,
         json: true
       })
@@ -105,7 +108,7 @@ router.delete('/removeskill', (req, res, next) => {
   .then(id => {
     request({
       method: "DELETE",
-      uri: "http://localhost:8082/users/" + id + "/skill",
+      uri: "http://"+baseUrl+":8082/users/" + id + "/skill",
       body: req.body,
       json: true
     })
