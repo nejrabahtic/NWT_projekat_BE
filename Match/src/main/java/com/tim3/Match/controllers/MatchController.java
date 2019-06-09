@@ -1,5 +1,6 @@
 package com.tim3.Match.controllers;
 
+import com.tim3.Match.DTO.MatchDTO;
 import com.tim3.Match.models.Match;
 import com.tim3.Match.services.MatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,9 @@ public class MatchController {
         Match createdMatch = matchService.create(match);
         return new ResponseEntity<>(createdMatch, HttpStatus.OK);
     }
+    public ResponseEntity<Match> matchUser(@RequestBody MatchDTO matchDTO){
 
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id){
