@@ -1,12 +1,15 @@
 package com.tim3.Company.services;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.tim3.Company.models.Company;
 import com.tim3.Company.models.Skill;
 import com.tim3.Company.repositories.CompanyRepository;
 import com.tim3.Company.repositories.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.*;
 import java.util.ArrayList;
 
 @Service
@@ -30,12 +33,21 @@ public class SeederService {
             companyRepository.saveAll(companies);
     }
     public void seedSkillTable(){
+        File skillsFromFile = null;
+        BufferedReader br = null;
         ArrayList<Skill> skills = new ArrayList<>();
-
-        skills.add(new Skill("Team Work"));
-        skills.add(new Skill("Project Manager"));
-        skills.add(new Skill("Software developer"));
-        skills.add(new Skill("DB administrator"));
+        String name = null;
+        try {
+            skillsFromFile = ResourceUtils.getFile("classpath:skills.txt");
+            br = new BufferedReader(new FileReader(skillsFromFile));
+            while( (name = br.readLine()) != null){
+                skills.add(new Skill(name.trim()));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
         if (skillRepository.count() == 0) {
             skillRepository.saveAll(skills);

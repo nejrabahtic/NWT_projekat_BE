@@ -61,7 +61,7 @@ public class Job {
         this.jobname = jobname;
         this.remote = remote;
         this.partTime = partTime;
-        this. requirements = requirements;
+        this.requirements = requirements;
     }
 
     @JsonProperty
