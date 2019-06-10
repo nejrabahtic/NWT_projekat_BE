@@ -68,11 +68,28 @@ public class MatchService {
     }
     public Match computeMatch(MatchDTO matchDTO){
 
+        List<Match> pastMatches = new ArrayList<>();
+        matchRepository
+                .findAll()
+                .forEach(pastMatches::add);
+
+
+        boolean alreadymatched = false;
         int bestscore = -1;
         int bestCompany = 0;
         int bestJob = 0;
         for(int i = 0; i < matchDTO.getCompanies().size(); i++){
             for(int j = 0; j < matchDTO.getCompanies().get(i).getJobs().size(); j++){
+                alreadymatched = false;
+                for(int k = 0; k < pastMatches.size(); k++){
+                    if(matchDTO.getCompanies().get(i).getJobs().get(j).getJobId().equals(pastMatches.get(k).getJobId())){
+                        alreadymatched = true;
+                        break;
+                    }
+                }
+                if(alreadymatched)
+                    continue;
+
                 int score = computeScore(matchDTO.getUserSkills(), matchDTO.getCompanies().get(i).getJobs().get(j).getJobSkills());
                 if(score > bestscore){
                     bestscore = score;

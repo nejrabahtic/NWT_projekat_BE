@@ -82,7 +82,16 @@ router.get('/', (req, res, next) => {
                         json: true
                     })
                     .then(response => {
-                        res.status(200).json(response);
+                        var jobId = response.jobId;
+                        var job = null;
+                        for(var i = 0; i < companyResponse.length; i++){
+                            for(var j = 0; j < companyResponse[i].jobs.length; j++){
+                                if(companyResponse[i].jobs[j].id == jobId){
+                                    job = companyResponse[i].jobs[j];
+                                }
+                            }
+                        }
+                        res.status(200).json({ job, ...response});
                     })
                     .catch(error => {
                         console.log(error);
