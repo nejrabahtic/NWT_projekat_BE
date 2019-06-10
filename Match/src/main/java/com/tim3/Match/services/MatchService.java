@@ -2,6 +2,8 @@ package com.tim3.Match.services;
 
 
 import com.netflix.discovery.converters.Auto;
+import com.tim3.Match.DTO.MatchDTO;
+import com.tim3.Match.DTO.SkillDTO;
 import com.tim3.Match.models.Match;
 import com.tim3.Match.repositories.MatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,44 @@ public class MatchService {
     public void deleteById(Integer id){
         rabbitService.sendMatchLogData("DELETE", "Match " + id.toString() + " deleted.");
         matchRepository.deleteById(id);
+    }
+
+    private int computeScore(List<SkillDTO> userSkills, List<SkillDTO> jobSkills){
+        int score = 0;
+        for(int i = 0; i < userSkills.size(); i++){
+            for(int j = 0; j < jobSkills.size(); j++){
+                if(userSkills.get(i).getSkillName().equals(jobSkills.get(j).getSkillName())){
+                    score++;
+                }
+            }
+        }
+        return score;
+    }
+    public Match computeMatch(MatchDTO matchDTO){
+
+        int bestscore = -1;
+        int bestCompany = 0;
+        int bestJob = 0;
+        for(int i = 0; i < matchDTO.getCompanies().size(); i++){
+            for(int j = 0; j < matchDTO.getCompanies().get(i).getJobs().size(); j++){
+                int score = computeScore(matchDTO.getUserSkills(), matchDTO.getCompanies().get(i).getJobs().get(j).getJobSkills());
+                if(score > bestscore){
+                    bestscore = score;
+                    bestCompany = i;
+                    bestJob = j;
+                }
+            }
+        }
+        if(bestscore == -1)
+            return null;
+        Match match = new Match(
+                            matchDTO.getUserId(),
+                            matchDTO.getCompanies().get(bestCompany).getJobs().get(bestJob).getJobId(),
+                            matchDTO.getUserName(),
+                            matchDTO.getCompanies().get(bestCompany).getJobs().get(bestJob).getJobName(),
+                            matchDTO.getCompanies().get(bestCompany).getCompanyName());
+//        return matchRepository.save(match);
+        return match;
     }
 
 }

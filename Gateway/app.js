@@ -28,8 +28,8 @@ app.use("/user", usersRouter);
 app.use("/company", companyROuter);
 app.use("/match", matchRouter)
 
-//let baseUrl = 'localhost'
-let baseUrl = '192.168.1.8'
+let baseUrl = 'localhost'
+// let baseUrl = '192.168.1.8'
 
 // Auth
 app.use('/', proxy("http://"+baseUrl+":8081", {

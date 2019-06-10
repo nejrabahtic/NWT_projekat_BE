@@ -1,7 +1,7 @@
 const request = require('request-promise-native');
 
-//let baseUrl = 'localhost'
-let baseUrl = '192.168.1.8'
+let baseUrl = 'localhost'
+// let baseUrl = '192.168.1.8'
 
 module.exports = {
     getAuthId: token => 

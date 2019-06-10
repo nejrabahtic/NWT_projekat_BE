@@ -14,7 +14,6 @@ public class SeederService {
     public void seedMatchTable(){
 
         ArrayList<Match> matches = new ArrayList<>();
-        matches.add(new Match());
 
         if(matchRepository.count() != 0)
             matchRepository.saveAll(matches);

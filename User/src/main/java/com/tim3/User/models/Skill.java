@@ -15,7 +15,7 @@ public class Skill {
     private Integer id;
 
     @Column(name = "skill_name")
-    @Size(min = 3, max = 20, message = "Skill name must be between 3 and 20 characters")
+    @Size(min = 1, max = 80, message = "Skill name must be between 1 and 80 characters")
     @NotNull(message = "Skill name must be provided.")
     private String skillName;
 

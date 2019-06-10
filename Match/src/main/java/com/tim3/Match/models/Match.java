@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 @Entity
-@Table(name="Match")
+@Table(name="Matcher")
 public class Match {
     @Id
     @GeneratedValue
@@ -47,6 +47,10 @@ public class Match {
         this.jobName = jobName;
         this.companyName = companyName;
     }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "request_id", referencedColumnName = "id")
+    private Request request;
 
     @JsonProperty
     public Integer getId() {

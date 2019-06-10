@@ -14,9 +14,6 @@ public class Request {
     @GeneratedValue
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "match_id")
-    private Match match;
 
 
     @Column(name = "accepted")
@@ -35,13 +32,6 @@ public class Request {
         this.id = id;
     }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
 
     public boolean isAccepted() {
         return accepted;

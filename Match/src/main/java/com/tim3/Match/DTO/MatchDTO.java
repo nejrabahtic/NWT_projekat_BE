@@ -8,7 +8,7 @@ public class MatchDTO {
     private String userName;
     private List<SkillDTO> userSkills;
 
-    private List<CompanyDTO> companyDTOS;
+    private List<CompanyDTO> companies;
 
     public Integer getUserId() {
         return userId;
@@ -20,7 +20,7 @@ public class MatchDTO {
         return userSkills;
     }
 
-    public List<CompanyDTO> getCompanyDTOS() {
-        return companyDTOS;
+    public List<CompanyDTO> getCompanies() {
+        return companies;
     }
 }

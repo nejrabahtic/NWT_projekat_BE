@@ -5,8 +5,8 @@ const proxy = require('express-http-proxy');
 const services = require('../config/services.json');
 var Auth = require('../sevices/Auth.js');
 
-//let baseUrl = 'localhost'
-let baseUrl = '192.168.1.8'
+let baseUrl = 'localhost'
+// let baseUrl = '192.168.1.8'
 
 router.get('/profile', (req, res, next) => {
     if (!req.headers.authorization) {

@@ -8,8 +8,8 @@ var Auth = require('../sevices/Auth.js');
 // router.get('/all', (req, res, next) => {
 // });
 
-//let baseUrl = 'localhost'
-let baseUrl = '192.168.1.8'
+let baseUrl = 'localhost'
+// let baseUrl = '192.168.1.8'
 
 router.get('/profile', (req, res, next) => {
   if (!req.headers.authorization) {

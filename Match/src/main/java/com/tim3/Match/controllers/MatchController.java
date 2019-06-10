@@ -18,6 +18,7 @@ public class MatchController {
     @Autowired
     private MatchService matchService;
 
+
     @GetMapping
     public ResponseEntity<List<Match>> getAll(){
         return new ResponseEntity<>(matchService.getAll(), HttpStatus.OK);
@@ -42,10 +43,15 @@ public class MatchController {
         Match createdMatch = matchService.create(match);
         return new ResponseEntity<>(createdMatch, HttpStatus.OK);
     }
+    @CrossOrigin
+    @PostMapping("/make")
     public ResponseEntity<Match> matchUser(@RequestBody MatchDTO matchDTO){
+        Match match = matchService.computeMatch(matchDTO);
 
+        if(match == null)
+            return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(match, HttpStatus.OK);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id){
         if(!matchService.existsById(id))
