@@ -15,12 +15,15 @@ public class Request {
     private Integer id;
 
 
-
     @Column(name = "accepted")
     private boolean accepted;
 
 
     public Request(){}
+
+    public Request(boolean accepted){
+        this.accepted = accepted;
+    }
 
     @JsonProperty
     public Integer getId() {

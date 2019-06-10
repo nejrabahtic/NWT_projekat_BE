@@ -62,6 +62,14 @@ public class Match {
         this.id = id;
     }
 
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
+    }
+
     public Integer getUserId() {
         return userId;
     }

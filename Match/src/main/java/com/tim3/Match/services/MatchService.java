@@ -5,7 +5,9 @@ import com.netflix.discovery.converters.Auto;
 import com.tim3.Match.DTO.MatchDTO;
 import com.tim3.Match.DTO.SkillDTO;
 import com.tim3.Match.models.Match;
+import com.tim3.Match.models.Request;
 import com.tim3.Match.repositories.MatchRepository;
+import com.tim3.Match.repositories.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ import java.util.Optional;
 public class MatchService {
     @Autowired
     private MatchRepository matchRepository;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
     @Autowired
     private RabbitService rabbitService;
@@ -53,6 +58,17 @@ public class MatchService {
     public void deleteById(Integer id){
         rabbitService.sendMatchLogData("DELETE", "Match " + id.toString() + " deleted.");
         matchRepository.deleteById(id);
+    }
+    public Match createRequest(Integer matchid, Boolean accepted){
+        Optional<Match> optionalMatch = matchRepository.findById(matchid);
+        if(!optionalMatch.isPresent())
+            return null;
+        Match match = optionalMatch.get();
+
+        Request request = requestRepository.save(new Request(accepted));
+        match.setRequest(request);
+
+        return matchRepository.save(match);
     }
 
     private int computeScore(List<SkillDTO> userSkills, List<SkillDTO> jobSkills){
@@ -106,8 +122,8 @@ public class MatchService {
                             matchDTO.getUserName(),
                             matchDTO.getCompanies().get(bestCompany).getJobs().get(bestJob).getJobName(),
                             matchDTO.getCompanies().get(bestCompany).getCompanyName());
-//        return matchRepository.save(match);
-        return match;
+        return matchRepository.save(match);
+//        return match;
     }
 
 }

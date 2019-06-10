@@ -1,5 +1,6 @@
 package com.tim3.Match.controllers;
 
+import com.netflix.discovery.converters.Auto;
 import com.tim3.Match.DTO.MatchDTO;
 import com.tim3.Match.models.Match;
 import com.tim3.Match.services.MatchService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.transform.OutputKeys;
 import java.util.List;
 
 @RestController
@@ -17,7 +19,6 @@ public class MatchController {
 
     @Autowired
     private MatchService matchService;
-
 
     @GetMapping
     public ResponseEntity<List<Match>> getAll(){
@@ -30,6 +31,7 @@ public class MatchController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
+    @CrossOrigin
     @GetMapping("/user/{id}")
     public ResponseEntity<List<Match>> getByUserId(@PathVariable Integer id){
         return new ResponseEntity<>(matchService.getByUserId(id), HttpStatus.OK);
@@ -49,9 +51,19 @@ public class MatchController {
         Match match = matchService.computeMatch(matchDTO);
 
         if(match == null)
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(match, HttpStatus.OK);
     }
+    @CrossOrigin
+    @PostMapping("/decide/{matchid}")
+    public ResponseEntity<Match> matchUser(@PathVariable Integer matchid, @RequestBody Boolean accepted){
+        Match match = matchService.createRequest(matchid, accepted);
+        System.out.println(matchid);
+        if(match == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(match, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id){
         if(!matchService.existsById(id))
