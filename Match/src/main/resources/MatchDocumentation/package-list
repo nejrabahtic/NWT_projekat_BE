@@ -1,0 +1,7 @@
+com.tim3.Match
+com.tim3.Match.DTO
+com.tim3.Match.controllers
+com.tim3.Match.models
+com.tim3.Match.repositories
+com.tim3.Match.services
+com.tim3.Match.swagger

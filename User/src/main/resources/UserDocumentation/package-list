@@ -1,0 +1,6 @@
+com.tim3.User
+com.tim3.User.controllers
+com.tim3.User.models
+com.tim3.User.repositories
+com.tim3.User.services
+com.tim3.User.swagger

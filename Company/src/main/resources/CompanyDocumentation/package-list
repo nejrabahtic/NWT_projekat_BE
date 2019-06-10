@@ -1,0 +1,6 @@
+com.tim3.Company
+com.tim3.Company.controllers
+com.tim3.Company.models
+com.tim3.Company.repositories
+com.tim3.Company.services
+com.tim3.Company.swagger
