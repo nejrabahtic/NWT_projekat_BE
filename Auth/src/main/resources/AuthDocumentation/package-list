@@ -1,0 +1,6 @@
+com.tim3.Auth
+com.tim3.Auth.controllers
+com.tim3.Auth.models
+com.tim3.Auth.repositories
+com.tim3.Auth.services
+com.tim3.Auth.swagger
