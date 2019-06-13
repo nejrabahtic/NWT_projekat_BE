@@ -1,4 +1,12 @@
 # Business Hookup BE
+
+Technology stack:
+
+ - Java
+ - Spring Boot
+ - MySQL
+ - MongoDB
+
 Microservices:
  - Auth (port: 8081)
  - User (port: 8082)
