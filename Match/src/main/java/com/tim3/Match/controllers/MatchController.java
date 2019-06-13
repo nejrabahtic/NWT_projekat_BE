@@ -36,6 +36,8 @@ public class MatchController {
     public ResponseEntity<List<Match>> getByUserId(@PathVariable Integer id){
         return new ResponseEntity<>(matchService.getByUserId(id), HttpStatus.OK);
     }
+
+    @CrossOrigin
     @GetMapping("/job/{id}")
     public ResponseEntity<List<Match>> getByJobId(@PathVariable Integer id){
         return new ResponseEntity<>(matchService.getByJobId(id), HttpStatus.OK);

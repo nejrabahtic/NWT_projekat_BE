@@ -42,7 +42,42 @@ router.get('/user', (req, res, next) => {
             res.status(400).json(error);
         })
 });
-
+router.get('/company', (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(403).json({ error: 'No credentials sent!' });
+    }
+    Auth
+        .getAuthId(req.headers.authorization)
+        .then(id => {
+            request({
+                method: 'get',
+                uri: 'http://'+baseUrl+':8083/company/authid/' + id
+            })
+            .then(response => {
+                console.log(response);
+                
+                var companyId = JSON.parse(response);
+                    
+                request({
+                    method: "GET",
+                    uri: "http://" + baseUrl + ":8083/match/company/" + userid
+                })
+                .then(response => {
+                    res.status(200).json(response);
+                    console.log(response);
+                })
+                .catch(error => {
+                    res.status(400).json(error);
+                })
+            })
+            .catch(error => {
+                res.status(400).json(error);
+            });
+        })
+        .catch(error => {
+            res.status(400).json(error);
+        })
+});
 router.get('/', (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).json({ error: 'No credentials sent!' });
