@@ -118,12 +118,17 @@ public class MatchService {
             return null;
         Match match = new Match(
                             matchDTO.getUserId(),
+                            matchDTO.getCompanies().get(bestCompany).getCompanyId(),
                             matchDTO.getCompanies().get(bestCompany).getJobs().get(bestJob).getJobId(),
                             matchDTO.getUserName(),
                             matchDTO.getCompanies().get(bestCompany).getJobs().get(bestJob).getJobName(),
                             matchDTO.getCompanies().get(bestCompany).getCompanyName());
         return matchRepository.save(match);
 //        return match;
+    }
+
+    public List<Match> getAllByCompanyId(Integer companyid){
+        return matchRepository.findByCompanyId(companyid);
     }
 
 }

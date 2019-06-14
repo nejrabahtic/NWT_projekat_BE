@@ -20,6 +20,10 @@ public class Match {
     private Integer userId;
 
     @NotNull
+    @Column(name = "company_id")
+    private Integer companyId;
+
+    @NotNull
     @Column(name = "job_id")
     private Integer jobId;
 
@@ -40,8 +44,9 @@ public class Match {
 
     public Match(){}
 
-    public Match(Integer userId, Integer jobId, String userName, String jobName, String companyName){
+    public Match(Integer userId, Integer companyId, Integer jobId, String userName, String jobName, String companyName){
         this.userId = userId;
+        this.companyId = companyId;
         this.jobId = jobId;
         this.userName = userName;
         this.jobName = jobName;
@@ -76,6 +81,14 @@ public class Match {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getJobId() {

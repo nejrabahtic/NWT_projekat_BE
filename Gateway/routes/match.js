@@ -8,6 +8,8 @@ var Auth = require('../sevices/Auth.js');
 let baseUrl = 'localhost'
 // let baseUrl = '192.168.1.8'
 
+
+
 router.get('/user', (req, res, next) => {
     if (!req.headers.authorization) {
         return res.status(403).json({ error: 'No credentials sent!' });
@@ -98,8 +100,10 @@ router.get('/', (req, res, next) => {
                 .all([userRequest, companyRequest])
                 .then(values => {
 
+
                     var userResponse = JSON.parse(values[0]);
                     var companyResponse = JSON.parse(values[1]);
+                    console.log(companyResponse);
 
                     var MatchDTO = {
                         userId: userResponse.id,
@@ -107,6 +111,7 @@ router.get('/', (req, res, next) => {
                         userSkills: userResponse.skills,
                         companies: companyResponse.map(company => ({
                             companyName: company.companyname,
+                            companyId: company.id,
                             jobs: company.jobs.map(job => ({
                                 jobId: job.id,
                                 jobName: job.jobname,
@@ -167,5 +172,40 @@ router.post("/decide", (req, res, next) => {
         res.status(500).json(error);
     })
 });
+
+router.get("/applications", (req, res, next) => {
+    if (!req.headers.authorization) {
+        return res.status(403).json({ error: 'No credentials sent!' });
+      }
+    Auth
+        .getAuthId(req.headers.authorization)
+        .then( id => {
+            request({
+                method: "GET",
+                uri: "http://"+baseUrl+":8084/companies/authid/" + id
+            })
+            .then(response => {
+                const { id } = JSON.parse(response);
+                console.log(id);
+                request({
+                    method: "GET",
+                    uri: "http://"+baseUrl+":8083/match/company/" + id,
+                })
+                .then(matches => {
+                    console.log(JSON.parse(matches));
+                    res.status(200).json(matches);
+                })
+                .catch(error=>{
+                    res.status(400).json(error);    
+                })
+            })
+            .catch(error => {
+                res.status(400).json(error);    
+            });
+        })
+        .catch(error => {
+            res.status(400).json(error);
+        })
+})
 
 module.exports = router;

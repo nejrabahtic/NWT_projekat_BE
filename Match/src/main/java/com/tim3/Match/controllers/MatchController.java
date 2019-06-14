@@ -73,4 +73,10 @@ public class MatchController {
         matchService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @CrossOrigin
+    @GetMapping("/company/{companyid}")
+    public ResponseEntity<List<Match>> getAllByCompanyId(@PathVariable Integer companyid){
+        List<Match> matches = matchService.getAllByCompanyId(companyid);
+        return new ResponseEntity<>(matches, HttpStatus.OK);
+    }
 }

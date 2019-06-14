@@ -4,6 +4,7 @@ import java.util.List;
 
 public class CompanyDTO {
 
+    private Integer companyId;
     private String companyName;
     private List<JobDTO> jobs;
 
@@ -13,5 +14,9 @@ public class CompanyDTO {
 
     public String getCompanyName() {
         return companyName;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
     }
 }
